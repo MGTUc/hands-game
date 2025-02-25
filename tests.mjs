@@ -60,6 +60,16 @@ function generateChildren(vertex) {
             .slice(0, 4)
             .join("")
     );
+    if (a1 == 1 && a2 == 3) {
+        positions.add(String(a3) + String(a4) + String(2) + String(2));
+    }
+    if (a1 == 0 && a2 == 2) {
+        positions.add(String(a3) + String(a4) + String(1) + String(1));
+    }
+    if (a1 == 0 && a2 == 4) {
+        positions.add(String(a3) + String(a4) + String(2) + String(2));
+    }
+
     for (let position of positions) {
         let value;
         let computerturn = !vertex.computerturn;
