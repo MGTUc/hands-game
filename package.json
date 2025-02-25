@@ -1,0 +1,19 @@
+{
+  "name": "hands-game",
+  "version": "1.0.0",
+  "description": "",
+  "main": "directedGraph.js",
+  "scripts": {
+    "test": "node tests.mjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MGTUc/hands-game.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MGTUc/hands-game/issues"
+  },
+  "homepage": "https://github.com/MGTUc/hands-game#readme"
+}
