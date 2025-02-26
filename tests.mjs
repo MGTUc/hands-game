@@ -36,40 +36,66 @@ function generateChildren(vertex) {
     let children = [];
     let positions = new Set();
     let [a1, a2, a3, a4] = vertex.position.toString().split("").map(Number);
-    positions.add(
-        String([Math.min(a3 + a1, 5) % 5, a4].sort().concat([a1, a2]))
-            .split(",")
-            .slice(0, 4)
-            .join("")
-    );
-    positions.add(
-        String([Math.min(a3 + a2, 5) % 5, a4].sort().concat([a1, a2]))
-            .split(",")
-            .slice(0, 4)
-            .join("")
-    );
-    positions.add(
-        String([Math.min(a4 + a1, 5) % 5, a3].sort().concat([a1, a2]))
-            .split(",")
-            .slice(0, 4)
-            .join("")
-    );
-    positions.add(
-        String([Math.min(a4 + a2, 5) % 5, a3].sort().concat([a1, a2]))
-            .split(",")
-            .slice(0, 4)
-            .join("")
-    );
-    if (a1 == 1 && a2 == 3) {
-        positions.add(String(a3) + String(a4) + String(2) + String(2));
+    if (a3 != 0 && a1 != 0) {
+        positions.add(
+            String([Math.min(a3 + a1, 5) % 5, a4].sort().concat([a1, a2]))
+                .split(",")
+                .slice(0, 4)
+                .join("")
+        );
+    }
+    if (a3 != 0 && a2 != 0) {
+        positions.add(
+            String([Math.min(a3 + a2, 5) % 5, a4].sort().concat([a1, a2]))
+                .split(",")
+                .slice(0, 4)
+                .join("")
+        );
+    }
+    if (a4 != 0 && a1 != 0) {
+        positions.add(
+            String([Math.min(a4 + a1, 5) % 5, a3].sort().concat([a1, a2]))
+                .split(",")
+                .slice(0, 4)
+                .join("")
+        );
+    }
+    if (a4 != 0 && a2 != 0) {
+        positions.add(
+            String([Math.min(a4 + a2, 5) % 5, a3].sort().concat([a1, a2]))
+                .split(",")
+                .slice(0, 4)
+                .join("")
+        );
     }
     if (a1 == 0 && a2 == 2) {
         positions.add(String(a3) + String(a4) + String(1) + String(1));
     }
+    if (a1 == 0 && a2 == 3) {
+        positions.add(String(a3) + String(a4) + String(1) + String(2));
+    }
     if (a1 == 0 && a2 == 4) {
         positions.add(String(a3) + String(a4) + String(2) + String(2));
+        positions.add(String(a3) + String(a4) + String(1) + String(3));
     }
-
+    if (a1 == 1 && a2 == 3) {
+        positions.add(String(a3) + String(a4) + String(2) + String(2));
+    }
+    if (a1 == 1 && a2 == 4) {
+        positions.add(String(a3) + String(a4) + String(2) + String(3));
+    }
+    if (a1 == 2 && a2 == 2) {
+        positions.add(String(a3) + String(a4) + String(1) + String(3));
+    }
+    if (a1 == 2 && a2 == 3) {
+        positions.add(String(a3) + String(a4) + String(1) + String(4));
+    }
+    if (a1 == 2 && a2 == 4) {
+        positions.add(String(a3) + String(a4) + String(3) + String(3));
+    }
+    if (a1 == 3 && a2 == 3) {
+        positions.add(String(a3) + String(a4) + String(2) + String(4));
+    }
     for (let position of positions) {
         let value;
         let computerturn = !vertex.computerturn;
