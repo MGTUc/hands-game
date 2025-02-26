@@ -1,36 +1,5 @@
 import { DirectedGraph, Vertex } from "./DirectedGraph.mjs";
-
-let startingVertex = new Vertex(1111, 0, false);
-let graph = new DirectedGraph(startingVertex);
-let reachedAllPositions = false;
-let frontier = [graph.getRoot()];
-let count = 0;
-while (!reachedAllPositions) {
-    let newFrontier = [];
-    for (let vertex of frontier) {
-        let children = generateChildren(vertex);
-        for (let child of children) {
-            if (!graph.vertices[child.position + String(child.computerturn)]) {
-                graph.addVertex(child);
-                if (child.value === 0) {
-                    newFrontier.push(child);
-                } else {
-                    count++;
-                    console.log(
-                        child.position +
-                            String(child.computerturn) +
-                            String(child.value)
-                    );
-                }
-            }
-        }
-    }
-    frontier = newFrontier;
-    reachedAllPositions = frontier.length === 0;
-}
-console.log(graph.vertices);
-console.log(Object.keys(graph.vertices).length);
-console.log(count);
+import fs from "fs";
 
 function generateChildren(vertex) {
     let children = [];
@@ -114,3 +83,96 @@ function generateChildren(vertex) {
     }
     return children;
 }
+
+function generateGraph() {
+    let startingVertex = new Vertex(1111, 0, false);
+    let graph = new DirectedGraph(startingVertex);
+    let reachedAllPositions = false;
+    let frontier = [graph.getRoot()];
+    while (!reachedAllPositions) {
+        let newFrontier = [];
+        for (let vertex of frontier) {
+            let children = generateChildren(vertex);
+            for (let child of children) {
+                if (
+                    !graph.vertices[child.position + String(child.computerturn)]
+                ) {
+                    graph.addVertex(child);
+                    if (child.value === 0) {
+                        newFrontier.push(child);
+                    }
+                }
+            }
+        }
+        frontier = newFrontier;
+        reachedAllPositions = frontier.length === 0;
+    }
+    return graph;
+}
+
+function calculateValue(graph) {
+    let changed = 1;
+    let count = 0;
+    while (changed != 0) {
+        changed = 0;
+        count = 0;
+        for (let vertex of Object.values(graph.vertices)) {
+            count++;
+            if (vertex.computerturn) {
+                let max = -1;
+                for (let child of vertex.children) {
+                    max = Math.max(max, child.value);
+                }
+
+                if (max != vertex.value) {
+                    changed += Math.abs(max - vertex.value);
+                    vertex.value = max;
+                }
+            } else {
+                let min = 1;
+                let winningComputer = 0;
+                for (let child of vertex.children) {
+                    min = Math.min(min, child.value);
+                    if (child.value > 0) {
+                        winningComputer += child.value;
+                    }
+                }
+                if (min >= 0 && vertex.children.length > 0) {
+                    min = winningComputer / vertex.children.length;
+                }
+                if (min != vertex.value) {
+                    changed += Math.abs(min - vertex.value);
+                    vertex.value = min;
+                }
+            }
+        }
+        console.log(changed, count);
+    }
+    let positionResponse = {};
+    for (let vertex of Object.values(graph.vertices)) {
+        console.log(
+            vertex.position,
+            vertex.computerturn,
+            vertex.value,
+            [...vertex.children].map((child) => child.value)
+        );
+        if (vertex.children.length > 0) {
+            let maxChild = vertex.children.reduce(
+                (max, child) => (child.value > max.value ? child : max),
+                vertex.children[0]
+            );
+            positionResponse[vertex.position + String(vertex.computerturn)] =
+                maxChild.position + String(maxChild.computerturn);
+        } else {
+            positionResponse[vertex.position + String(vertex.computerturn)] =
+                null;
+        }
+    }
+    console.log(positionResponse);
+    return positionResponse;
+}
+
+let graph = generateGraph();
+
+let response = calculateValue(graph);
+fs.writeFileSync("response.json", JSON.stringify(response));
