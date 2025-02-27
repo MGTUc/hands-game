@@ -121,7 +121,12 @@ function calculateValue(graph) {
             if (vertex.computerturn) {
                 let max = -1;
                 for (let child of vertex.children) {
-                    max = Math.max(max, child.value);
+                    max = Math.max(
+                        max,
+                        graph.vertices[
+                            child.position + String(child.computerturn)
+                        ].value
+                    );
                 }
 
                 if (max != vertex.value) {
@@ -132,9 +137,17 @@ function calculateValue(graph) {
                 let min = 1;
                 let winningComputer = 0;
                 for (let child of vertex.children) {
-                    min = Math.min(min, child.value);
+                    min = Math.min(
+                        min,
+                        graph.vertices[
+                            child.position + String(child.computerturn)
+                        ].value
+                    );
                     if (child.value > 0) {
-                        winningComputer += child.value;
+                        winningComputer +=
+                            graph.vertices[
+                                child.position + String(child.computerturn)
+                            ].value;
                     }
                 }
                 if (min >= 0 && vertex.children.length > 0) {
@@ -168,7 +181,6 @@ function calculateValue(graph) {
                 null;
         }
     }
-    console.log(positionResponse);
     return positionResponse;
 }
 
