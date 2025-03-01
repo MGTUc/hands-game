@@ -162,29 +162,80 @@ function calculateValue(graph) {
         console.log(changed, count);
     }
     let positionResponse = {};
+    // for (let vertex of Object.values(graph.vertices)) {
+    //     console.log(
+    //         vertex.position,
+    //         vertex.computerturn,
+    //         vertex.value,
+    //         [...vertex.children].map((child) => child.value)
+    //     );
+    //     if (vertex.children.length > 0) {
+    //         let maxChild = vertex.children.reduce(
+    //             (max, child) => (child.value > max.value ? child : max),
+    //             vertex.children[0]
+    //         );
+    //         positionResponse[vertex.position + String(vertex.computerturn)] =
+    //             maxChild.position + String(maxChild.computerturn);
+    //     } else {
+    //         positionResponse[vertex.position + String(vertex.computerturn)] =
+    //             null;
+    //     }
+    // }
     for (let vertex of Object.values(graph.vertices)) {
-        console.log(
-            vertex.position,
-            vertex.computerturn,
-            vertex.value,
-            [...vertex.children].map((child) => child.value)
-        );
-        if (vertex.children.length > 0) {
-            let maxChild = vertex.children.reduce(
-                (max, child) => (child.value > max.value ? child : max),
-                vertex.children[0]
-            );
-            positionResponse[vertex.position + String(vertex.computerturn)] =
-                maxChild.position + String(maxChild.computerturn);
-        } else {
-            positionResponse[vertex.position + String(vertex.computerturn)] =
-                null;
+        for (let child of vertex.children) {
+            if (positionResponse[vertex.position + String(vertex.computerturn)]) {
+                positionResponse[
+                    vertex.position + String(vertex.computerturn)
+                ].push([child.position + String(child.computerturn), graph.vertices[child.position + String(child.computerturn)].value]);
+            } else {
+                positionResponse[
+                    vertex.position + String(vertex.computerturn)
+                ] = [[child.position + String(child.computerturn), graph.vertices[child.position + String(child.computerturn)].value]];
+            }
         }
+        console.log(positionResponse[vertex.position + String(vertex.computerturn)]);
     }
     return positionResponse;
 }
 
-let graph = generateGraph();
+function response(position, computerturn = true, responseDict) {
+    let key = position + String(computerturn);
+    if (responseDict[key]) {
+        let max = responseDict[key].reduce((max, child) => (child[1] > max[1] ? child : max), responseDict[key][0]);
+        if (max[1] <= 0 || responseDict[key].length === 1 || max[1] === 1) {
+            return max[0];
+        } else{
+            let sumPositiveValues = 0;
+            let positivePositions = [];
+            for (let child of responseDict[key]) {
+                if (child[1]>0) {
+                    sumPositiveValues += child[1];
+                    positivePositions.push(child);
+                }
+            }
+            let random = Math.random();
+            let sum = 0;
+            for (let i = 0; i < positivePositions.length; i++) {
+                sum += positivePositions[i][1] / sumPositiveValues;
+                if (random < sum) {
+                    return positivePositions[i][0];
+                }
+            }
+        }
+        return max[0];
+    } else {
+        return null;
+    }
+}
 
-let response = calculateValue(graph);
-fs.writeFileSync("response.json", JSON.stringify(response));
+// let graph = generateGraph();
+// let responsedict = calculateValue(graph);
+// fs.writeFileSync("response.json", JSON.stringify(responsedict));
+fs.readFile("response.json", "utf8", (err, data) => {
+    if (err) {
+        console.error(err);
+        return;
+    }
+    let responsedict = JSON.parse(data);
+    console.log(response("0122", false, responsedict));
+});
