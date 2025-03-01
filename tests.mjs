@@ -1,5 +1,5 @@
 import { DirectedGraph, Vertex } from "./DirectedGraph.mjs";
-import fs from "fs";
+import { positionResponse } from "./response.mjs";
 
 function generateChildren(vertex) {
     let children = [];
@@ -231,11 +231,4 @@ function response(position, computerturn = true, responseDict) {
 // let graph = generateGraph();
 // let responsedict = calculateValue(graph);
 // fs.writeFileSync("response.json", JSON.stringify(responsedict));
-fs.readFile("response.json", "utf8", (err, data) => {
-    if (err) {
-        console.error(err);
-        return;
-    }
-    let responsedict = JSON.parse(data);
-    console.log(response("0122", false, responsedict));
-});
+console.log(response("1133", false, positionResponse));

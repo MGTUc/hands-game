@@ -2,7 +2,7 @@
   "name": "hands-game",
   "version": "1.0.0",
   "description": "",
-  "main": "directedGraph.js",
+  "main": "tests.mjs",
   "scripts": {
     "test": "node tests.mjs"
   },

@@ -1,4 +1,4 @@
-{
+export const positionResponse = {
     "1111false": [
         [
             "1211true",
