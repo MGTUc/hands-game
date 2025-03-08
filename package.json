@@ -4,7 +4,8 @@
   "description": "",
   "main": "tests.mjs",
   "scripts": {
-    "test": "node tests.mjs"
+    "calculate": "node calculateGraph.mjs",
+    "machine": "node machine.mjs"
   },
   "repository": {
     "type": "git",

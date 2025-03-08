@@ -1,5 +1,5 @@
 import { DirectedGraph, Vertex } from "./DirectedGraph.mjs";
-import { positionResponse } from "./response.mjs";
+
 
 function generateChildren(vertex) {
     let children = [];
@@ -198,37 +198,8 @@ function calculateValue(graph) {
     return positionResponse;
 }
 
-function response(position, computerturn = true, responseDict) {
-    let key = position + String(computerturn);
-    if (responseDict[key]) {
-        let max = responseDict[key].reduce((max, child) => (child[1] > max[1] ? child : max), responseDict[key][0]);
-        if (max[1] <= 0 || responseDict[key].length === 1 || max[1] === 1) {
-            return max[0];
-        } else{
-            let sumPositiveValues = 0;
-            let positivePositions = [];
-            for (let child of responseDict[key]) {
-                if (child[1]>0) {
-                    sumPositiveValues += child[1];
-                    positivePositions.push(child);
-                }
-            }
-            let random = Math.random();
-            let sum = 0;
-            for (let i = 0; i < positivePositions.length; i++) {
-                sum += positivePositions[i][1] / sumPositiveValues;
-                if (random < sum) {
-                    return positivePositions[i][0];
-                }
-            }
-        }
-        return max[0];
-    } else {
-        return null;
-    }
-}
 
 // let graph = generateGraph();
 // let responsedict = calculateValue(graph);
 // fs.writeFileSync("response.json", JSON.stringify(responsedict));
-console.log(response("1133", false, positionResponse));
+

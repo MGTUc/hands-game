@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chopsticks Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .game-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+            margin-top: 50px;
+        }
+        .hands {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+        .hand {
+            font-size: 24px;
+            padding: 10px;
+            border: 2px solid black;
+            width: 80px;
+            text-align: center;
+            background-color: lightgray;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px;
+            font-size: 16px;
+        }
+    </style>
+    
+</head>
+<body>
+    <div class="game-container">
+        <h1>Chopsticks</h1>
+        <div class="hands">
+            <div class="hand" id="player2-L" onclick="selectHand('player2-L')">1</div>
+            <div class="hand" id="player2-R" onclick="selectHand('player2-R')">1</div>
+        </div>
+        
+        <h2>VS</h2>
+        <div class="hands">
+            <div class="hand" id="player1-L" onclick="selectHand('player1-L')">1</div>
+            <div class="hand" id="player1-R" onclick="selectHand('player1-R')">1</div>
+        </div>
+        <div>
+            <button onclick="splitHands()">Split</button>
+        </div>
+        <button onclick="Reset()">Reset</button>
+    </div>
+
+    <script>
+        let selectedHand = null;
+        let player2 = {L: 1, R: 1};
+        let player1 = {L: 1, R: 1};
+        function selectHand(handId) {
+            if (!selectedHand) {
+                if (handId.startsWith('player1')) {
+                    selectedHand = handId;
+                    document.getElementById(handId).style.backgroundColor = 'yellow';
+                }
+            } else {
+                if (handId.startsWith('player2')) {
+                    
+                    document.getElementById(handId).style.backgroundColor = 'yellow';
+                    player2[handId.split('-')[1]] = Math.min(player2[handId.split('-')[1]] + player1[selectedHand.split('-')[1]],5)%5;
+                    document.getElementById(handId).innerText = player2[handId.split('-')[1]];
+                    // Add your game logic here to handle the interaction between selectedHand and handId
+                    document.getElementById(selectedHand).style.backgroundColor = 'lightgray';
+                    console.log(`Selected hands: ${selectedHand} and ${handId}`);
+                    selectedHand = null;
+                } else {
+                    document.getElementById(selectedHand).style.backgroundColor = 'lightgray';
+                    selectedHand = handId;
+                    document.getElementById(handId).style.backgroundColor = 'yellow';
+                }
+            }
+        }
+
+        function splitHands() {
+            // Add your split hands logic here
+        }
+
+        function Reset() {
+            player2 = {L: 1, R: 1};
+            player1 = {L: 1, R: 1};
+            document.getElementById('player2-L').innerText = player2.L;
+            document.getElementById('player2-R').innerText = player2.R;
+            document.getElementById('player1-L').innerText = player1.L;
+            document.getElementById('player1-R').innerText = player1.R;
+            document.getElementById('player2-L').style.backgroundColor = 'lightgray';
+            document.getElementById('player2-R').style.backgroundColor = 'lightgray';
+            document.getElementById('player1-L').style.backgroundColor = 'lightgray';
+            document.getElementById('player1-R').style.backgroundColor = 'lightgray';
+        }
+    </script>
+</body>
+</html>
