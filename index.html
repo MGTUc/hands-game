@@ -40,18 +40,22 @@
             padding: 10px;
             font-size: 16px;
         }
+        #player {
+            color: blue;
+        }
     </style>
     
 </head>
 <body>
     <div class="game-container">
-        <h1>Chopsticks</h1>
+        <h1>Hands Game</h1>
         <div class="hands">
             <div class="hand" id="player2-L" onclick="selectHand('player2-L')">1</div>
             <div class="hand" id="player2-R" onclick="selectHand('player2-R')">1</div>
         </div>
-        
+        <h3 id="computer">Computer</h3>
         <h2>VS</h2>
+        <h3 id="player">Player</h3>
         <div class="hands">
             <div class="hand" id="player1-L" onclick="selectHand('player1-L')">1</div>
             <div class="hand" id="player1-R" onclick="selectHand('player1-R')">1</div>
@@ -64,28 +68,44 @@
 
     <script>
         let selectedHand = null;
+        let playerturn = true;
         let player2 = {L: 1, R: 1};
         let player1 = {L: 1, R: 1};
         function selectHand(handId) {
-            if (!selectedHand) {
-                if (handId.startsWith('player1')) {
-                    selectedHand = handId;
-                    document.getElementById(handId).style.backgroundColor = 'yellow';
-                }
-            } else {
-                if (handId.startsWith('player2')) {
-                    
-                    document.getElementById(handId).style.backgroundColor = 'yellow';
-                    player2[handId.split('-')[1]] = Math.min(player2[handId.split('-')[1]] + player1[selectedHand.split('-')[1]],5)%5;
-                    document.getElementById(handId).innerText = player2[handId.split('-')[1]];
-                    // Add your game logic here to handle the interaction between selectedHand and handId
-                    document.getElementById(selectedHand).style.backgroundColor = 'lightgray';
-                    console.log(`Selected hands: ${selectedHand} and ${handId}`);
-                    selectedHand = null;
+            if(document.getElementById(handId).innerText != 0 && playerturn) {
+                if (!selectedHand) {
+                    if (handId.startsWith('player1')) {
+                        selectedHand = handId;
+                        document.getElementById(handId).style.backgroundColor = 'yellow';
+                    }
                 } else {
-                    document.getElementById(selectedHand).style.backgroundColor = 'lightgray';
-                    selectedHand = handId;
-                    document.getElementById(handId).style.backgroundColor = 'yellow';
+                    if (handId.startsWith('player2')) {
+                        
+                        document.getElementById(handId).style.backgroundColor = 'yellow';
+                        player2[handId.split('-')[1]] = Math.min(player2[handId.split('-')[1]] + player1[selectedHand.split('-')[1]],5)%5;
+                        document.getElementById(handId).innerText = player2[handId.split('-')[1]];
+                        playerturn = false;
+                        setTimeout(() => {
+                            document.getElementById(handId).style.backgroundColor = 'lightgray';
+                            document.getElementById(selectedHand).style.backgroundColor = 'lightgray';
+                            document.getElementById("player").style.color = "black";
+                            document.getElementById("computer").style.color = "blue";
+                            selectedHand = null;
+                        }, 300);
+
+                        setTimeout(() => {
+                            document.getElementById("player").style.color = "blue";
+                            document.getElementById("computer").style.color = "black";
+                            playerturn = true;
+                        }, 1300);
+                        // Add your game logic here to handle the interaction between selectedHand and handId
+                        console.log(`Selected hands: ${selectedHand} and ${handId}`);
+                        
+                    } else {
+                        document.getElementById(selectedHand).style.backgroundColor = 'lightgray';
+                        selectedHand = handId;
+                        document.getElementById(handId).style.backgroundColor = 'yellow';
+                    }
                 }
             }
         }

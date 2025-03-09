@@ -33,22 +33,22 @@ function response(position, computerturn = true, responseDict) {
 function convertUItoAI(player1, player2, move) {
     switch(move) {
         case "RR":
-            return String([Math.min(player1.right + player2.right, 5) % 5, player2.left].sort().concat([player1.right, player1.left]))
+            return String([Math.min(player1.right + player2.right, 5) % 5, player2.left].sort().concat([player1.left, player1.right].sort()))
             .split(",")
             .slice(0, 4)
             .join("");
         case "RL":
-            return String([Math.min(player1.right + player2.left, 5) % 5, player2.rigth].sort().concat([player1.right, player1.left]))
+            return String([Math.min(player1.right + player2.left, 5) % 5, player2.rigth].sort().concat([player1.left, player1.right].sort()))
             .split(",")
             .slice(0, 4)
             .join("");
         case "LR":
-            return String([Math.min(player1.left + player2.right, 5) % 5, player2.left].sort().concat([player1.right, player1.left]))
+            return String([Math.min(player1.left + player2.right, 5) % 5, player2.left].sort().concat([player1.left, player1.right].sort()))
             .split(",")
             .slice(0, 4)
             .join("");
         case "LL":
-            return String([Math.min(player1.left + player2.left, 5) % 5, player2.rigth].sort().concat([player1.right, player1.left]))
+            return String([Math.min(player1.left + player2.left, 5) % 5, player2.rigth].sort().concat([player1.left, player1.right].sort()))
             .split(",")
             .slice(0, 4)
             .join("");
