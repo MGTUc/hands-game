@@ -30,43 +30,54 @@ function response(position, computerturn = true, responseDict) {
     }
 }
 
-function convertUItoAI(player1, player2, move) {
-    switch(move) {
-        case "RR":
-            return String([Math.min(player1.right + player2.right, 5) % 5, player2.left].sort().concat([player1.left, player1.right].sort()))
-            .split(",")
-            .slice(0, 4)
-            .join("");
-        case "RL":
-            return String([Math.min(player1.right + player2.left, 5) % 5, player2.rigth].sort().concat([player1.left, player1.right].sort()))
-            .split(",")
-            .slice(0, 4)
-            .join("");
-        case "LR":
-            return String([Math.min(player1.left + player2.right, 5) % 5, player2.left].sort().concat([player1.left, player1.right].sort()))
-            .split(",")
-            .slice(0, 4)
-            .join("");
-        case "LL":
-            return String([Math.min(player1.left + player2.left, 5) % 5, player2.rigth].sort().concat([player1.left, player1.right].sort()))
-            .split(",")
-            .slice(0, 4)
-            .join("");
-    }
-    
-}
-
-function convertHandsAndResponde(player1, player2, move) {
-    searchPosition = convertUItoAI(player1, player2, move);
-    responsePosition = response(searchPosition, true, positionResponse);
-    [p11, p12, p21, p22] = responsePosition.split("").map(Number);
-    if ((p11 == player1.left || p12 == player1.right)&&(p21 == player2.left || p22 == player2.right)) {
-        return [p11, p12, p21, p22];
-    } else if((p11 == player1.right || p12 == player1.left)&&(p21 == player2.left || p22 == player12.right)) {
-        return [p12, p11, p21, p22];
-    } else if((p11 == player1.left || p12 == player1.right)&&(p21 == player2.right || p22 == player2.left)) {
-        return [p11, p12, p22, p21];
+function convertHandsAndRespond(player1, player2) {  
+    if (player2.L > player2.R) {
+        if (player1.L > player1.R) {
+            let responsePosition = response([player2.R, player2.L, player1.R, player1.L].join(""), true, positionResponse);
+            let [p11, p12, p21, p22] = responsePosition.split("").map(Number);
+            if (p11 == player1.L || p12 == player1.R) {
+                return [p11, p12, p22, p21];
+            } else {
+                return [p12, p11, p22, p21];
+            }
+        } else {
+            let responsePosition = response([player2.R, player2.L, player1.L, player1.R].join(""), true, positionResponse);
+            let [p11, p12, p21, p22] = responsePosition.split("").map(Number);
+            if (p11 == player1.L || p12 == player1.R) {
+                return [p11, p12, p22, p21];
+            } else {
+                return [p12, p11, p22, p21];
+            }
+        }
     } else {
-        return [p12, p11, p22, p21];
-    }    
+        if (player1.L > player1.R) {
+            let responsePosition = response([player2.L, player2.R, player1.R, player1.L].join(""), true, positionResponse);
+            let [p11, p12, p21, p22] = responsePosition.split("").map(Number);
+            if (p11 == player1.L || p12 == player1.R) {
+                return [p11, p12, p22, p21];
+            } else {
+                return [p12, p11, p22, p21];
+            }
+        } else {
+            let responsePosition = response([player2.L, player2.R, player1.L, player1.R].join(""), true, positionResponse);
+            let [p11, p12, p21, p22] = responsePosition.split("").map(Number);
+            if (p11 == player1.L || p12 == player1.R) {
+                return [p11, p12, p21, p22];
+            } else {
+                return [p12, p11, p21, p22];
+            }
+        }
+    }
 }
+export { convertHandsAndRespond };
+// let player1 = {
+//     L: 0,
+//     R: 1 
+// };
+// let player2 = {
+//     L: 2,
+//     R: 1
+// };
+// let [P1L, P1R, P2L, P2R] = convertHandsAndRespond(player1, player2);
+// console.log(P2L, P2R);
+// console.log(P1L, P1R);

@@ -42,6 +42,7 @@
         }
         #player {
             color: blue;
+            background-color: lightgray;
         }
     </style>
     
@@ -65,67 +66,10 @@
         </div>
         <button onclick="Reset()">Reset</button>
     </div>
-
-    <script>
-        let selectedHand = null;
-        let playerturn = true;
-        let player2 = {L: 1, R: 1};
-        let player1 = {L: 1, R: 1};
-        function selectHand(handId) {
-            if(document.getElementById(handId).innerText != 0 && playerturn) {
-                if (!selectedHand) {
-                    if (handId.startsWith('player1')) {
-                        selectedHand = handId;
-                        document.getElementById(handId).style.backgroundColor = 'yellow';
-                    }
-                } else {
-                    if (handId.startsWith('player2')) {
-                        
-                        document.getElementById(handId).style.backgroundColor = 'yellow';
-                        player2[handId.split('-')[1]] = Math.min(player2[handId.split('-')[1]] + player1[selectedHand.split('-')[1]],5)%5;
-                        document.getElementById(handId).innerText = player2[handId.split('-')[1]];
-                        playerturn = false;
-                        setTimeout(() => {
-                            document.getElementById(handId).style.backgroundColor = 'lightgray';
-                            document.getElementById(selectedHand).style.backgroundColor = 'lightgray';
-                            document.getElementById("player").style.color = "black";
-                            document.getElementById("computer").style.color = "blue";
-                            selectedHand = null;
-                        }, 300);
-
-                        setTimeout(() => {
-                            document.getElementById("player").style.color = "blue";
-                            document.getElementById("computer").style.color = "black";
-                            playerturn = true;
-                        }, 1300);
-                        // Add your game logic here to handle the interaction between selectedHand and handId
-                        console.log(`Selected hands: ${selectedHand} and ${handId}`);
-                        
-                    } else {
-                        document.getElementById(selectedHand).style.backgroundColor = 'lightgray';
-                        selectedHand = handId;
-                        document.getElementById(handId).style.backgroundColor = 'yellow';
-                    }
-                }
-            }
-        }
-
-        function splitHands() {
-            // Add your split hands logic here
-        }
-
-        function Reset() {
-            player2 = {L: 1, R: 1};
-            player1 = {L: 1, R: 1};
-            document.getElementById('player2-L').innerText = player2.L;
-            document.getElementById('player2-R').innerText = player2.R;
-            document.getElementById('player1-L').innerText = player1.L;
-            document.getElementById('player1-R').innerText = player1.R;
-            document.getElementById('player2-L').style.backgroundColor = 'lightgray';
-            document.getElementById('player2-R').style.backgroundColor = 'lightgray';
-            document.getElementById('player1-L').style.backgroundColor = 'lightgray';
-            document.getElementById('player1-R').style.backgroundColor = 'lightgray';
-        }
+    <script type="module">import { selectHand, splitHands, Reset } from './frontend.mjs';
+        window.selectHand = selectHand;
+        window.splitHands = splitHands;
+        window.Reset = Reset;
     </script>
 </body>
 </html>
