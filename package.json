@@ -4,7 +4,7 @@
   "description": "",
   "main": "tests.mjs",
   "scripts": {
-    "calculate": "node calculateGraph.mjs",
+    "calculate": "node buildingMachine/calculateGraph.mjs",
     "machine": "node machine.mjs"
   },
   "repository": {

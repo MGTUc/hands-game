@@ -40,6 +40,13 @@ function selectHand(handId) {
                     document.getElementById('player2-R').innerText = player2.R;
                     document.getElementById('player1-L').innerText = player1.L;
                     document.getElementById('player1-R').innerText = player1.R;
+                    if(player2.L == 0 && player2.R == 0){
+                        document.getElementById("head").innerText = "You win!";
+                        document.getElementById("head").style.color = "green";
+                    } else if(player1.L == 0 && player1.R == 0){
+                        document.getElementById("head").innerText = "You lose!";
+                        document.getElementById("head").style.color = "red";
+                    }
                 }, 1300);
                 // Add your game logic here to handle the interaction between selectedHand and handId
                 
@@ -55,41 +62,22 @@ function selectHand(handId) {
 function splitHands() {
     let split = false;
     if(playerturn){
-        
         if((player1.L==0 && player1.R==2)||((player1.L==2 && player1.R==0))){
             split = true;
             player1.L = 1;
             player1.R = 1;
-        } else if((player1.L==0 && player1.R==3)||(player1.L==3 && player1.R==0)){
-            split = true;
-            player1.L = 1;
-            player1.R = 2;
         } else if((player1.L==0 && player1.R==4)||(player1.L==4 && player1.R==0)){
             split = true;
-            let choice = confirm("Do you want to split into 2 2? Click 'OK' for 2 2 or 'Cancel' for 1 3.");
-            if (choice) {
-                player1.L = 2;
-                player1.R = 2;
-            } else {
-                player1.L = 1;
-                player1.R = 3;
-            }
+            player1.L = 2;
+            player1.R = 2;
         } else if((player1.L==1 && player1.R==3)||(player1.L==3 && player1.R==1)){
             split = true;
             player1.L = 2;
             player1.R = 2;
-        } else if((player1.L==1 && player1.R==4)||(player1.L==4 && player1.R==1)){
-            split = true;
-            player1.L = 2;
-            player1.R = 3;
         } else if((player1.L==2 && player1.R==2)||(player1.L==2 && player1.R==2)){
             split = true;
             player1.L = 1;
             player1.R = 3;
-        } else if((player1.L==2 && player1.R==3)||(player1.L==3 && player1.R==2)){
-            split = true;
-            player1.L = 1;
-            player1.R = 4;
         } else if((player1.L==2 && player1.R==4)||(player1.L==4 && player1.R==2)){
             split = true;
             player1.L = 3;
@@ -129,6 +117,8 @@ function splitHands() {
                 document.getElementById('player1-L').innerText = player1.L;
                 document.getElementById('player1-R').innerText = player1.R;
             }, 1300);
+        } else {
+            alert("You can only split if the sum of your hands is even and both hands are not 1.");
         }
     }
 }
@@ -144,6 +134,8 @@ function Reset() {
     document.getElementById('player2-R').style.backgroundColor = 'lightgray';
     document.getElementById('player1-L').style.backgroundColor = 'lightgray';
     document.getElementById('player1-R').style.backgroundColor = 'lightgray';
+    document.getElementById("head").innerText = "Hands Game";
+    document.getElementById("head").style.color = "black";
 }
 
 export { selectHand, Reset, splitHands };

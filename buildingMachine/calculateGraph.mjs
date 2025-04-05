@@ -1,4 +1,5 @@
 import { DirectedGraph, Vertex } from "./DirectedGraph.mjs";
+import fs from "fs";
 
 
 function generateChildren(vertex) {
@@ -40,9 +41,9 @@ function generateChildren(vertex) {
     if (a1 == 0 && a2 == 2) {
         positions.add(String(a3) + String(a4) + String(1) + String(1));
     }
-    if (a1 == 0 && a2 == 3) {
-        positions.add(String(a3) + String(a4) + String(1) + String(2));
-    }
+    // if (a1 == 0 && a2 == 3) {
+    //     positions.add(String(a3) + String(a4) + String(1) + String(2));
+    // }
     if (a1 == 0 && a2 == 4) {
         positions.add(String(a3) + String(a4) + String(2) + String(2));
         positions.add(String(a3) + String(a4) + String(1) + String(3));
@@ -50,15 +51,15 @@ function generateChildren(vertex) {
     if (a1 == 1 && a2 == 3) {
         positions.add(String(a3) + String(a4) + String(2) + String(2));
     }
-    if (a1 == 1 && a2 == 4) {
-        positions.add(String(a3) + String(a4) + String(2) + String(3));
-    }
+    // if (a1 == 1 && a2 == 4) {
+    //     positions.add(String(a3) + String(a4) + String(2) + String(3));
+    // }
     if (a1 == 2 && a2 == 2) {
         positions.add(String(a3) + String(a4) + String(1) + String(3));
     }
-    if (a1 == 2 && a2 == 3) {
-        positions.add(String(a3) + String(a4) + String(1) + String(4));
-    }
+    // if (a1 == 2 && a2 == 3) {
+    //     positions.add(String(a3) + String(a4) + String(1) + String(4));
+    // }
     if (a1 == 2 && a2 == 4) {
         positions.add(String(a3) + String(a4) + String(3) + String(3));
     }
@@ -199,7 +200,7 @@ function calculateValue(graph) {
 }
 
 
-// let graph = generateGraph();
-// let responsedict = calculateValue(graph);
-// fs.writeFileSync("response.json", JSON.stringify(responsedict));
+let graph = generateGraph();
+let responsedict = calculateValue(graph);
+fs.writeFileSync("response.json", JSON.stringify(responsedict));
 
